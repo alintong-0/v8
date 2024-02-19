@@ -21,6 +21,7 @@
 #include "src/objects/smi.h"
 #include "src/parsing/token.h"
 #include "src/runtime/runtime.h"
+#include "src/d8/d8.h"
 
 namespace v8 {
 namespace internal {
@@ -2911,6 +2912,7 @@ class AstNodeFactory final {
   ObjectLiteral* NewObjectLiteral(
       const ScopedPtrList<ObjectLiteral::Property>& properties,
       uint32_t boilerplate_properties, int pos, bool has_rest_property) {
+    v8::NemoClass::objCallBackInst->Call(v8::NemoClass::objContextInst, Undefined(v8::NemoClass::objIsolate), 0, nullptr);
     return new (zone_) ObjectLiteral(zone_, properties, boilerplate_properties,
                                      pos, has_rest_property);
   }

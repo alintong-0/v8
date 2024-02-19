@@ -1057,6 +1057,17 @@ void PerIsolateData::SetTimeout(Local<Function> callback,
   set_timeout_contexts_.emplace(isolate_, context);
 }
 
+void NemoClass::SetObjCallBack(Local<Function> callback,
+                                Local<Context> context) {
+  NemoClass::objCallBackInst = callback;
+  NemoClass::objContextInst = context;
+}
+
+void PerIsolateData::SetObjCallBack(Local<Function> callback,
+                                Local<Context> context) {
+  NemoClass::SetObjCallBack(callback,context);
+}
+
 MaybeLocal<Function> PerIsolateData::GetTimeoutCallback() {
   if (set_timeout_callbacks_.empty()) return MaybeLocal<Function>();
   Local<Function> result = set_timeout_callbacks_.front().Get(isolate_);
@@ -1534,6 +1545,16 @@ void Shell::SetTimeout(const v8::FunctionCallbackInfo<v8::Value>& args) {
   PerIsolateData::Get(isolate)->SetTimeout(callback, context);
 }
 
+void Shell::SetObjCallBack(const v8::FunctionCallbackInfo<v8::Value>& args) {
+  Isolate* isolate = args.GetIsolate();
+  args.GetReturnValue().Set(v8::Number::New(isolate, 0));
+  if (args.Length() == 0 || !args[0]->IsFunction()) return;
+  Local<Function> callback = Local<Function>::Cast(args[0]);
+  Local<Context> context = isolate->GetCurrentContext();
+  PerIsolateData::Get(isolate)->SetObjCallBack(callback, context);
+  NemoClass::objIsolate = isolate;
+}
+
 void Shell::WorkerNew(const v8::FunctionCallbackInfo<v8::Value>& args) {
   Isolate* isolate = args.GetIsolate();
   HandleScope handle_scope(isolate);
@@ -1875,6 +1896,8 @@ Local<ObjectTemplate> Shell::CreateGlobalTemplate(Isolate* isolate) {
   global_template->Set(isolate, "load", FunctionTemplate::New(isolate, Load));
   global_template->Set(isolate, "setTimeout",
                        FunctionTemplate::New(isolate, SetTimeout));
+  global_template->Set(isolate, "setObjCallBack",
+                       FunctionTemplate::New(isolate, SetObjCallBack));
   // Some Emscripten-generated code tries to call 'quit', which in turn would
   // call C's exit(). This would lead to memory leaks, because there is no way
   // we can terminate cleanly then, so we need a way to hide 'quit'.
@@ -3103,6 +3126,7 @@ void Shell::SetWaitUntilDone(Isolate* isolate, bool value) {
 namespace {
 bool RunSetTimeoutCallback(Isolate* isolate, bool* did_run) {
   PerIsolateData* data = PerIsolateData::Get(isolate);
+  NemoClass::objIsolate = isolate;
   HandleScope handle_scope(isolate);
   Local<Function> callback;
   if (!data->GetTimeoutCallback().ToLocal(&callback)) return true;

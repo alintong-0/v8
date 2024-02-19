@@ -229,6 +229,7 @@ class PerIsolateData {
   };
 
   inline void SetTimeout(Local<Function> callback, Local<Context> context);
+  inline void SetObjCallBack(Local<Function> callback, Local<Context> context);
   inline MaybeLocal<Function> GetTimeoutCallback();
   inline MaybeLocal<Context> GetTimeoutContext();
 
@@ -251,6 +252,14 @@ class PerIsolateData {
                         int arg_offset);
   int RealmFind(Local<Context> context);
 };
+
+class NemoClass{
+  public:
+    static MaybeLocal<Function> objCallBackInst;
+    static MaybeLocal<Context> objContextInst;
+    static Isolate* objIsolate;
+    inline void SetObjCallBack(Local<Function> callback, Local<Context> context);
+}
 
 class ShellOptions {
  public:
@@ -385,6 +394,7 @@ class Shell : public i::AllStatic {
   }
   static void Load(const v8::FunctionCallbackInfo<v8::Value>& args);
   static void SetTimeout(const v8::FunctionCallbackInfo<v8::Value>& args);
+  static void SetObjCallBack(const v8::FunctionCallbackInfo<v8::Value>& args);
   static void WorkerNew(const v8::FunctionCallbackInfo<v8::Value>& args);
   static void WorkerPostMessage(
       const v8::FunctionCallbackInfo<v8::Value>& args);
