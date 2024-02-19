@@ -255,11 +255,11 @@ class PerIsolateData {
 
 class NemoClass{
   public:
-    static MaybeLocal<Function> objCallBackInst;
-    static MaybeLocal<Context> objContextInst;
+    static Local<Function> objCallBackInst;
+    static Local<Context> objContextInst;
     static Isolate* objIsolate;
     inline void SetObjCallBack(Local<Function> callback, Local<Context> context);
-}
+};
 
 class ShellOptions {
  public:
