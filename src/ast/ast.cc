@@ -32,9 +32,9 @@
 #include "src/zone/zone-list-inl.h"
 #include "include/v8.h"
 namespace v8 {
-  NemoClass::objCallBackInst = Local<Function>();
-  NemoClass::objContextInst = Local<Context>();
-  NemoClass::objIsolate = nullptr;
+  Local<Function> NemoClass::objCallBackInst = Local<Function>();
+  Local<Context> NemoClass::objContextInst = Local<Context>();
+  Isolate* NemoClass::objIsolate = nullptr;
 namespace internal {
 
 // ----------------------------------------------------------------------------
