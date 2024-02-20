@@ -12041,9 +12041,9 @@ size_t SnapshotCreator::AddData(Local<T> object) {
 
   class V8_EXPORT NemoClass {
     public:
-        Local<Function> objCallBackInst;
-        Local<Context> objContextInst;
-        Isolate* objIsolate;
+        Local<Function> objCallBackInst = Local<Function>();
+        Local<Context> objContextInst = Local<Function>();
+        Isolate* objIsolate = nullptr;
         inline void SetObjCallBack(Local<Function> callback, Local<Context> context);
   };
 }  // namespace v8
