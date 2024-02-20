@@ -253,13 +253,7 @@ class PerIsolateData {
   int RealmFind(Local<Context> context);
 };
 
-class NemoClass{
-  public:
-    static Local<Function> objCallBackInst;
-    static Local<Context> objContextInst;
-    static Isolate* objIsolate;
-    inline void SetObjCallBack(Local<Function> callback, Local<Context> context);
-};
+
 
 class ShellOptions {
  public:

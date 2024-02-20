@@ -121,6 +121,8 @@ class CallHandlerHelper;
 class EscapableHandleScope;
 template<typename T> class ReturnValue;
 
+class NemoClass;
+
 namespace internal {
 enum class ArgumentsType;
 template <ArgumentsType>
@@ -12037,7 +12039,13 @@ size_t SnapshotCreator::AddData(Local<T> object) {
  * \example process.cc
  */
 
-
+  class V8_EXPORT NemoClass {
+    public:
+        static Local<Function> objCallBackInst;
+        static Local<Context> objContextInst;
+        static Isolate* objIsolate;
+        inline void SetObjCallBack(Local<Function> callback, Local<Context> context);
+  }
 }  // namespace v8
 
 #endif  // INCLUDE_V8_H_
