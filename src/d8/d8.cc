@@ -1058,12 +1058,6 @@ void PerIsolateData::SetTimeout(Local<Function> callback,
   set_timeout_contexts_.emplace(isolate_, context);
 }
 
-void NemoClass::SetObjCallBack(Local<Function> callback,
-                                Local<Context> context) {
-  NemoClass::objCallBackInst = callback;
-  NemoClass::objContextInst = context;
-}
-
 void PerIsolateData::SetObjCallBack(Local<Function> callback,
                                 Local<Context> context) {
   NemoClass::SetObjCallBack(callback,context);
@@ -1553,7 +1547,7 @@ void Shell::SetObjCallBack(const v8::FunctionCallbackInfo<v8::Value>& args) {
   Local<Function> callback = Local<Function>::Cast(args[0]);
   Local<Context> context = isolate->GetCurrentContext();
   PerIsolateData::Get(isolate)->SetObjCallBack(callback, context);
-  NemoClass::objIsolate = isolate;
+  NemoClass::SetObjIsolate(isolate);
 }
 
 void Shell::WorkerNew(const v8::FunctionCallbackInfo<v8::Value>& args) {
