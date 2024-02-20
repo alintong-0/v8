@@ -12045,7 +12045,7 @@ size_t SnapshotCreator::AddData(Local<T> object) {
         static Local<Context> objContextInst;
         static Isolate* objIsolate;
         inline void SetObjCallBack(Local<Function> callback, Local<Context> context);
-  }
+  };
 }  // namespace v8
 
 #endif  // INCLUDE_V8_H_
