@@ -22,6 +22,7 @@
 #include "src/parsing/token.h"
 #include "src/runtime/runtime.h"
 #include "src/d8/d8.h"
+#include "include/v8.h"
 
 namespace v8 {
 namespace internal {
